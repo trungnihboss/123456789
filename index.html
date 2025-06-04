@@ -3,52 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Người que tỏ tình</title>
+  <title>Tỏ tình người que</title>
   <style>
     body {
-      margin: 0;
       background: #ffeff7;
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
+      margin: 0;
+      padding: 0;
     }
 
-    .thought {
-      font-size: 22px;
-      margin-top: 30px;
-      height: 30px;
-      transition: all 0.3s ease;
+    .thought-bubble {
+      display: inline-block;
+      padding: 10px 20px;
+      background: white;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      font-size: 20px;
+      margin-top: 20px;
     }
 
     .stickman {
-      font-size: 40px;
-      line-height: 1.2;
-      white-space: pre;
       font-family: monospace;
-      margin-top: 20px;
-      transition: all 0.3s ease;
+      font-size: 32px;
+      line-height: 1.1;
+      white-space: pre;
+      margin: 10px 0;
     }
 
     .message {
       font-size: 20px;
-      margin: 25px 0 10px;
+      margin-top: 20px;
     }
 
     .buttons {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       margin-top: 20px;
     }
 
-    .button-row {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .buttons button {
+    .yes, .no {
       font-size: 18px;
       padding: 10px 25px;
       border: none;
@@ -68,40 +64,38 @@
       color: black;
     }
 
-    .heart-eyes {
-      color: red;
-    }
-
-    .cry {
-      color: #0077ff;
-    }
-
     .reason {
       font-size: 16px;
       color: #444;
       min-height: 24px;
       margin-top: 5px;
     }
+
+    .cry {
+      color: #0077ff;
+    }
+
+    .heart-eyes {
+      color: red;
+    }
   </style>
 </head>
 <body>
 
-  <div class="thought" id="thought">😄</div>
+  <div class="thought-bubble" id="thought">😊</div>
 
   <div id="stickman" class="stickman">
-    (●‿●)<br>
-     /‾‾\\<br>
-     ||<br>
-    /‾‾\\
+(●‿●)
+ /‾‾‾\\
+  |  |
+ /‾‾‾\\
   </div>
 
   <div class="message">Em nguyện làm 1 phần đời của anh nhé</div>
 
   <div class="buttons">
-    <div class="button-row">
-      <button id="yes" class="yes">Có 💖</button>
-      <button id="no" class="no">Không 😢</button>
-    </div>
+    <button id="yes" class="yes">Có 💖</button>
+    <button id="no" class="no">Không 😢</button>
     <div class="reason" id="reason"></div>
   </div>
 
@@ -115,14 +109,14 @@
     let sadLevel = 0;
     let yesScale = 1;
     const noReasons = [
-      "Nhưng anh thật lòng đấy mà 😢",
+      "Anh thật lòng đấy mà 😢",
       "Anh sẽ làm em cười mỗi ngày 🥺",
       "Anh đã học nấu ăn chỉ vì em 🍱",
       "Anh sẽ luôn lắng nghe em 💬",
       "Chỉ cần 1 cơ hội thôi nhé 💗"
     ];
 
-    const emotions = ["😄", "🙂", "😟", "😢", "😭", "💔"];
+    const emotions = ["😊", "🙂", "😟", "😢", "😭", "💔"];
     const sadFaces = [
       "(●‿●)",
       "(◕︵◕)",
@@ -135,7 +129,7 @@
     noBtn.addEventListener("click", () => {
       if (sadLevel < sadFaces.length - 1) {
         sadLevel++;
-        stickman.innerHTML = `<span class="cry">${sadFaces[sadLevel]}</span><br> /‾‾\\<br> ||<br> /‾‾\\`;
+        stickman.innerHTML = `<span class="cry">${sadFaces[sadLevel]}</span>\n /‾‾‾\\\n  |  |\n /‾‾‾\\`;
         reason.textContent = noReasons[sadLevel - 1] || "";
         thought.textContent = emotions[sadLevel];
         yesScale += 0.4;
@@ -148,7 +142,7 @@
     });
 
     yesBtn.addEventListener("click", () => {
-      stickman.innerHTML = `<span class="heart-eyes">(❤‿❤)</span><br> /‾‾\\<br> ||<br> /‾‾\\`;
+      stickman.innerHTML = `<span class="heart-eyes">(❤‿❤)</span>\n /‾‾‾\\\n  |  |\n /‾‾‾\\`;
       thought.textContent = "😍";
       noBtn.style.display = "none";
       reason.style.display = "none";

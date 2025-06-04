@@ -40,8 +40,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
     }
 
     .yes, .no {
@@ -84,9 +91,13 @@
   <div class="message">Em nguyện làm 1 phần đời của anh nhé</div>
 
   <div class="buttons">
-    <button id="yes" class="yes">Có 💖</button>
-    <button id="no" class="no">Không 😢</button>
-    <div class="reason" id="reason"></div>
+    <div class="button-group">
+      <button id="yes" class="yes">Có 💖</button>
+    </div>
+    <div class="button-group">
+      <button id="no" class="no">Không 😢</button>
+      <div class="reason" id="reason"></div>
+    </div>
   </div>
 
   <script>
@@ -114,10 +125,18 @@
       if (sadLevel < maxLevel) {
         sadLevel++;
         characterImg.src = `thu${sadLevel + 1}.jpg`;
-        reason.textContent = noReasons[sadLevel - 1] || "";
         thought.textContent = emotions[sadLevel];
+
+        // Tăng kích thước nút "Có"
         yesScale += 0.4;
         yesBtn.style.transform = `scale(${yesScale})`;
+
+        // Đổi nội dung nút "Không" sang lý do
+        noBtn.textContent = noReasons[sadLevel - 1] || "Không";
+
+        // Lý do chi tiết bên dưới
+        reason.textContent = "";
+
       } else {
         noBtn.disabled = true;
         reason.textContent = "Anh buồn lắm rồi... 😭";

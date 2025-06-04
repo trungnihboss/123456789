@@ -7,23 +7,23 @@
   <style>
     body {
       margin: 0;
-      background: #ffe4ec;
-      font-family: Arial, sans-serif;
+      background: #fff0f5;
+      font-family: 'Arial', sans-serif;
       text-align: center;
     }
 
     .stickman {
-      margin-top: 50px;
       font-size: 40px;
-      line-height: 1;
+      line-height: 1.2;
       white-space: pre;
       font-family: monospace;
+      margin-top: 60px;
       transition: all 0.3s ease;
     }
 
     .message {
       font-size: 24px;
-      margin: 20px 0;
+      margin: 30px 0 10px;
     }
 
     .buttons {
@@ -32,42 +32,45 @@
 
     .buttons button {
       font-size: 20px;
-      padding: 10px 20px;
+      padding: 10px 25px;
       margin: 10px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
     .yes {
-      background-color: #ff4d88;
+      background-color: #ff4081;
       color: white;
-      transform: scale(1.4);
     }
 
     .no {
-      background-color: #ccc;
+      background-color: #ddd;
     }
 
     .heart-eyes {
       color: red;
+    }
+
+    .cry {
+      color: #0077ff;
     }
   </style>
 </head>
 <body>
 
   <div id="stickman" class="stickman">
-    o<br>
-   /|\<br>
-   / \<br>
+    (•‿•)<br>
+     /|\\<br>
+     / \\
   </div>
 
   <div class="message">Em nguyện làm 1 phần đời của anh nhé</div>
 
   <div class="buttons">
-    <button id="yes" class="yes">Có 🥰</button>
-    <button id="no" class="no">Không 😢</button>
+    <button id="yes" class="yes">Có 💖</button>
+    <button id="no" class="no">Không 🙁</button>
   </div>
 
   <script>
@@ -76,41 +79,45 @@
     const noBtn = document.getElementById("no");
 
     let sadLevel = 0;
-    const maxSadLevel = 5;
+    let yesScale = 1;
     const noReasons = [
-      "Anh đáng yêu lắm mà 🥺",
-      "Suy nghĩ lại được không? 🥹",
-      "Anh biết nấu ăn nè 🍳",
-      "Anh có thể học nấu nếu em thích 😄",
-      "Một cơ hội thôi mà ❤️"
+      "Nhưng anh tốt bụng lắm mà 😢",
+      "Anh sẽ luôn quan tâm em 🥺",
+      "Anh học cách nấu món em thích rồi 🍜",
+      "Anh sẽ làm em cười mỗi ngày 😁",
+      "Chỉ cần một cơ hội thôi nhé ❤️"
     ];
 
     const sadFaces = [
-      `o\n/|\\\n/ \\`, // Cấp 0
-      `o\n/|\\\n/`,   // Cấp 1
-      `o\n/|\\`,     // Cấp 2
-      `o\n/|`,       // Cấp 3
-      `o\n |`,       // Cấp 4
-      `.\n |`        // Cấp 5 - tan vỡ
+      "(•‿•)",               // Bình thường
+      "(•︵•)",              // Buồn nhẹ
+      "(╥_╥)",               // Rơm rớm
+      "(ಥ﹏ಥ)",              // Khóc nhỏ
+      "(ಥ_ಥ)",              // Khóc đậm
+      "(இ﹏இ`｡)"            // Rất buồn
     ];
 
-    const happyStickman = `<span class="heart-eyes">❤</span><br>/|\\<br>/ \\`;
+    const happyFace = "(❤‿❤)";
 
     noBtn.addEventListener("click", () => {
-      if (sadLevel < maxSadLevel) {
+      if (sadLevel < sadFaces.length - 1) {
         sadLevel++;
-        stickman.innerHTML = sadFaces[sadLevel].replace(/\n/g, "<br>");
-        noBtn.textContent = noReasons[sadLevel - 1] || "Thôi đừng buồn mà";
+        stickman.innerHTML = `<span class="cry">${sadFaces[sadLevel]}</span><br> /|\\<br> / \\`;
+        noBtn.textContent = noReasons[sadLevel - 1] || "Thôi mà...";
+        // Tăng kích thước nút Có
+        yesScale += 0.4;
+        yesBtn.style.transform = `scale(${yesScale})`;
       } else {
         noBtn.disabled = true;
-        noBtn.textContent = "😢 Anh hết buồn nổi rồi...";
+        noBtn.textContent = "😢 Anh buồn lắm rồi...";
       }
     });
 
     yesBtn.addEventListener("click", () => {
-      stickman.innerHTML = happyStickman;
+      stickman.innerHTML = `<span class="heart-eyes">${happyFace}</span><br> /|\\<br> / \\`;
       noBtn.style.display = "none";
       yesBtn.textContent = "Yêu quá trời luôn ❤️";
+      yesBtn.style.transform = `scale(${yesScale + 0.3})`;
     });
   </script>
 

@@ -3,40 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tỏ tình bằng ảnh</title>
+  <title>Lời tỏ tình dễ thương</title>
   <style>
     body {
-      background: #ffeff7;
-      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffeff5;
+      font-family: Arial, sans-serif;
       text-align: center;
-      margin: 0;
-      padding: 0;
+      padding: 20px;
     }
 
     .thought-bubble {
+      position: relative;
       display: inline-block;
-      padding: 10px 20px;
+      margin-bottom: 10px;
+    }
+
+    .thought-bubble span {
       background: white;
       border-radius: 30px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      font-size: 20px;
-      margin-top: 20px;
+      padding: 8px 16px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      font-size: 24px;
     }
 
-    .image-container img {
-      width: 250px;
-      max-width: 90%;
-      border-radius: 12px;
-      margin-top: 10px;
-      transition: all 0.3s ease;
+    .character img {
+      width: 200px;
+      height: auto;
     }
 
-    .message {
-      font-size: 20px;
-      margin-top: 20px;
-    }
-
-    .buttons {
+    .button-group {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -44,27 +39,20 @@
       margin-top: 30px;
     }
 
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-    }
-
     .yes, .no {
-      font-size: 18px;
-      padding: 10px 25px;
+      font-size: 20px;
+      padding: 12px 28px;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       cursor: pointer;
       transition: all 0.3s ease;
       white-space: nowrap;
+      max-width: 90vw;
     }
 
     .yes {
       background-color: #ff4081;
       color: white;
-      z-index: 1;
     }
 
     .no {
@@ -73,86 +61,83 @@
     }
 
     .reason {
+      margin-top: 10px;
       font-size: 16px;
-      color: #444;
-      min-height: 24px;
-      margin-top: 5px;
+      color: #333;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .heart-eyes {
+      filter: drop-shadow(0 0 5px red);
     }
   </style>
 </head>
 <body>
 
-  <div class="thought-bubble" id="thought">😊</div>
-
-  <div class="image-container">
-    <img id="character-img" src="thu1.jpg" alt="Ảnh nhân vật">
+  <div class="thought-bubble">
+    <span id="emotion">😊</span>
   </div>
 
-  <div class="message">Em nguyện làm 1 phần đời của anh nhé</div>
-
-  <div class="buttons">
-    <div class="button-group">
-      <button id="yes" class="yes">Có 💖</button>
-    </div>
-    <div class="button-group">
-      <button id="no" class="no">Không 😢</button>
-      <div class="reason" id="reason"></div>
-    </div>
+  <div class="character">
+    <img id="stickman" src="thu1.jpg" alt="Stickman">
   </div>
+
+  <p>Em nguyện làm 1 phần đời của anh nhé</p>
+
+  <div class="button-group">
+    <button id="yes" class="yes">Có 💖</button>
+    <button id="no" class="no">Không 😢</button>
+    <div class="reason" id="reason"></div>
+  </div>
+
+  <div class="message" id="message"></div>
 
   <script>
-    const characterImg = document.getElementById("character-img");
     const yesBtn = document.getElementById("yes");
     const noBtn = document.getElementById("no");
+    const stickman = document.getElementById("stickman");
+    const emotion = document.getElementById("emotion");
     const reason = document.getElementById("reason");
-    const thought = document.getElementById("thought");
+    const message = document.getElementById("message");
 
-    let sadLevel = 0;
+    let sadnessLevel = 0;
     let yesScale = 1;
-    const maxLevel = 5;
-
-    const noReasons = [
-      "Anh thật lòng đấy mà 😢",
-      "Anh sẽ làm em cười mỗi ngày 🥺",
-      "Anh đã học nấu ăn chỉ vì em 🍱",
-      "Anh sẽ luôn lắng nghe em 💬",
-      "Chỉ cần 1 cơ hội thôi nhé 💗"
+    const reasons = [
+      "Bạn chắc chưa ",
+      "Bạn không kiếm được ai như tôi đâu",
+      "Đừng mà người đẹp",
+      "Tôi tan nát trái tim rồi",
+      "Tôi nguyện hiến dâng trái tim này cho cậu"
     ];
 
-    const emotions = ["😊", "🙂", "😟", "😢", "😭", "💔"];
+    const emotions = ["😊", "😐", "😕", "😢", "😭", "💔"];
 
     noBtn.addEventListener("click", () => {
-      if (sadLevel < maxLevel) {
-        sadLevel++;
-        characterImg.src = `thu${sadLevel + 1}.jpg`;
-        thought.textContent = emotions[sadLevel];
+      if (sadnessLevel < 5) {
+        sadnessLevel++;
+        stickman.src = `thu${sadnessLevel + 1}.jpg`; // vì index bắt đầu từ 1
+        emotion.textContent = emotions[sadnessLevel];
 
-        // Tăng kích thước nút "Có"
         yesScale += 0.4;
         yesBtn.style.transform = `scale(${yesScale})`;
 
-        // Đổi nội dung nút "Không" sang lý do
-        noBtn.textContent = noReasons[sadLevel - 1] || "Không";
-
-        // Lý do chi tiết bên dưới
-        reason.textContent = "";
-
-      } else {
-        noBtn.disabled = true;
-        reason.textContent = "Anh buồn lắm rồi... 😭";
-        thought.textContent = "💔";
+        // Đổi nút "Không" thành lý do
+        if (sadnessLevel <= reasons.length) {
+          noBtn.textContent = reasons[sadnessLevel - 1];
+        }
       }
     });
 
     yesBtn.addEventListener("click", () => {
-      characterImg.src = "thu1.jpg";
-      thought.textContent = "😍";
-      noBtn.style.display = "none";
-      reason.style.display = "none";
-      yesBtn.textContent = "Em đồng ý rồi 💘";
-      yesBtn.style.transform = `scale(${yesScale + 0.3})`;
+      emotion.textContent = "😍";
+      stickman.src = "thu1.jpg"; // mặt vui nhất
+      stickman.classList.add("heart-eyes");
+      message.textContent = "Yay! Em đồng ý rồi 💞";
     });
   </script>
-
 </body>
 </html>

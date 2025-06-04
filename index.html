@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tỏ tình người que</title>
+  <style>
+    body {
+      margin: 0;
+      background: #ffe4ec;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .stickman {
+      margin-top: 50px;
+      font-size: 40px;
+      line-height: 1;
+      white-space: pre;
+      font-family: monospace;
+      transition: all 0.3s ease;
+    }
+
+    .message {
+      font-size: 24px;
+      margin: 20px 0;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    .buttons button {
+      font-size: 20px;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .yes {
+      background-color: #ff4d88;
+      color: white;
+      transform: scale(1.4);
+    }
+
+    .no {
+      background-color: #ccc;
+    }
+
+    .heart-eyes {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="stickman" class="stickman">
+    o<br>
+   /|\<br>
+   / \<br>
+  </div>
+
+  <div class="message">Em nguyện làm 1 phần đời của anh nhé</div>
+
+  <div class="buttons">
+    <button id="yes" class="yes">Có 🥰</button>
+    <button id="no" class="no">Không 😢</button>
+  </div>
+
+  <script>
+    const stickman = document.getElementById("stickman");
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+
+    let sadLevel = 0;
+    const maxSadLevel = 5;
+    const noReasons = [
+      "Anh đáng yêu lắm mà 🥺",
+      "Suy nghĩ lại được không? 🥹",
+      "Anh biết nấu ăn nè 🍳",
+      "Anh có thể học nấu nếu em thích 😄",
+      "Một cơ hội thôi mà ❤️"
+    ];
+
+    const sadFaces = [
+      `o\n/|\\\n/ \\`, // Cấp 0
+      `o\n/|\\\n/`,   // Cấp 1
+      `o\n/|\\`,     // Cấp 2
+      `o\n/|`,       // Cấp 3
+      `o\n |`,       // Cấp 4
+      `.\n |`        // Cấp 5 - tan vỡ
+    ];
+
+    const happyStickman = `<span class="heart-eyes">❤</span><br>/|\\<br>/ \\`;
+
+    noBtn.addEventListener("click", () => {
+      if (sadLevel < maxSadLevel) {
+        sadLevel++;
+        stickman.innerHTML = sadFaces[sadLevel].replace(/\n/g, "<br>");
+        noBtn.textContent = noReasons[sadLevel - 1] || "Thôi đừng buồn mà";
+      } else {
+        noBtn.disabled = true;
+        noBtn.textContent = "😢 Anh hết buồn nổi rồi...";
+      }
+    });
+
+    yesBtn.addEventListener("click", () => {
+      stickman.innerHTML = happyStickman;
+      noBtn.style.display = "none";
+      yesBtn.textContent = "Yêu quá trời luôn ❤️";
+    });
+  </script>
+
+</body>
+</html>

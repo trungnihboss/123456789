@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lời tỏ tình dễ thương</title>
+  <title>Lời tỏ tình</title>
   <style>
     body {
       background-color: #ffeff5;
@@ -29,13 +29,14 @@
     .character img {
       width: 200px;
       height: auto;
+      transition: all 0.3s ease;
     }
 
     .button-group {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: 24px; /* khoảng cách lớn hơn để tránh đè */
       margin-top: 30px;
     }
 
@@ -45,9 +46,9 @@
       border: none;
       border-radius: 16px;
       cursor: pointer;
-      transition: all 0.3s ease;
       white-space: nowrap;
       max-width: 90vw;
+      transition: all 0.3s ease;
     }
 
     .yes {
@@ -105,13 +106,23 @@
     const message = document.getElementById("message");
 
     let sadnessLevel = 0;
-    let yesScale = 1;
+
+    // Tăng font/padding để phóng to thực tế
+    const sizeSteps = [
+      { fontSize: "20px", padding: "12px 28px" },
+      { fontSize: "24px", padding: "14px 34px" },
+      { fontSize: "28px", padding: "16px 40px" },
+      { fontSize: "32px", padding: "18px 46px" },
+      { fontSize: "36px", padding: "20px 52px" },
+      { fontSize: "40px", padding: "22px 60px" },
+    ];
+
     const reasons = [
-      "Bạn chắc chưa ",
-      "Bạn không kiếm được ai như tôi đâu",
-      "Đừng mà người đẹp",
-      "Tôi tan nát trái tim rồi",
-      "Tôi nguyện hiến dâng trái tim này cho cậu"
+      "Anh sẽ luôn lắng nghe em 🗨️",
+      "Anh nấu ăn vì em 🍳",
+      "Anh từ bỏ game vì em 🎮",
+      "Anh viết code tặng em 💻",
+      "Anh dắt em đi chơi mỗi cuối tuần 🌸"
     ];
 
     const emotions = ["😊", "😐", "😕", "😢", "😭", "💔"];
@@ -122,8 +133,9 @@
         stickman.src = `thu${sadnessLevel + 1}.jpg`; // vì index bắt đầu từ 1
         emotion.textContent = emotions[sadnessLevel];
 
-        yesScale += 0.4;
-        yesBtn.style.transform = `scale(${yesScale})`;
+        // Thay đổi size thật (không dùng transform)
+        yesBtn.style.fontSize = sizeSteps[sadnessLevel].fontSize;
+        yesBtn.style.padding = sizeSteps[sadnessLevel].padding;
 
         // Đổi nút "Không" thành lý do
         if (sadnessLevel <= reasons.length) {
@@ -134,7 +146,7 @@
 
     yesBtn.addEventListener("click", () => {
       emotion.textContent = "😍";
-      stickman.src = "thu1.jpg"; // mặt vui nhất
+      stickman.src = "thu1.jpg";
       stickman.classList.add("heart-eyes");
       message.textContent = "Yay! Em đồng ý rồi 💞";
     });
